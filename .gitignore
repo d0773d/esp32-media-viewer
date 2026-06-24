@@ -1,0 +1,7 @@
+build/
+managed_components/
+sdkconfig.old
+assets/firmware/*
+!assets/firmware/.gitkeep
+__pycache__/
+*.pyc
