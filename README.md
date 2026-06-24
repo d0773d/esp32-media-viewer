@@ -32,7 +32,11 @@ The app converts media to device-ready files, builds a `media.bin` package, down
 
 The device firmware reads the `media` partition at runtime. Press BOOT to advance to the next item.
 
-Animated GIFs and videos are auto-fit to the available flash budget. The app starts from the selected FPS and video-seconds values, then lowers per-file frame count and effective FPS when needed so the final `media.bin` fits the `media` partition.
+Animated GIFs and videos are auto-fit to the available flash budget. The app starts from the selected FPS and video-seconds values, then lowers per-file frame count when needed so the final `media.bin` fits the `media` partition without slowing the selected playback FPS.
+
+The output selector near the Convert/Flash buttons controls where `media.bin` is saved: the default app data folder, the same folder as the EXE, or a custom folder. The app first looks for `settings.ini` next to the EXE for portable mode; if it is not present, it falls back to `%LOCALAPPDATA%\ESP32MediaViewerCompanion\settings.ini`. The Settings selector can switch between those two storage locations.
+
+Optimized GIF frames are composited before conversion, and firmware video playback schedules frame timing from the start of each frame so LCD transfer time does not get added to the requested delay.
 
 ## Partition Layout
 
