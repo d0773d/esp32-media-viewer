@@ -32,6 +32,8 @@ The app converts media to device-ready files, builds a `media.bin` package, down
 
 The device firmware reads the `media` partition at runtime. Press BOOT to advance to the next item.
 
+Animated GIFs and videos are auto-fit to the available flash budget. The app starts from the selected FPS and video-seconds values, then lowers per-file frame count and effective FPS when needed so the final `media.bin` fits the `media` partition.
+
 ## Partition Layout
 
 ```text
