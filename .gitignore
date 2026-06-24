@@ -5,3 +5,6 @@ assets/firmware/*
 !assets/firmware/.gitkeep
 __pycache__/
 *.pyc
+dist/
+companion_app/vendor/
+build/pyinstaller/
