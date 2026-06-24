@@ -44,19 +44,27 @@ If you omit `--port`, `idf.py` will try to auto-detect the board.
 
 The uploader detects common image/video inputs, converts images to 240x240 JPEG, converts video/GIF files to 240x240 RGB565 `.rgbv`, runs `idf.py reconfigure`, builds, and flashes the firmware over USB. By default, videos are trimmed to 3 seconds at 8 FPS so they fit in flash; use `--max-video-seconds` and `--fps` to change that.
 
+Media fit defaults to `contain`, which preserves the whole image and adds black bars when the source is not square. Use `--fit cover` to fill the LCD by center-cropping, or `--fit stretch` to fill the LCD by distorting the source into a square.
+
 Prepare assets without building or flashing:
 
 ```powershell
 python tools\media_uploader.py --convert-only
 ```
 
+Prepare full-screen cropped assets:
+
+```powershell
+python tools\media_uploader.py --convert-only --fit cover
+```
+
 Convert a desktop video:
 
 ```powershell
-python tools\convert_video_rgbv.py input.mp4 assets\firmware\output.rgbv --fps 10
+python tools\convert_video_rgbv.py input.mp4 assets\firmware\output.rgbv --fps 10 --fit cover
 ```
 
-The converter requires `ffmpeg` in `PATH`. It scales/pads video to 240x240 and writes big-endian RGB565 frames.
+The converter requires `ffmpeg` in `PATH`. It fits video to 240x240 with the selected `--fit` mode and writes big-endian RGB565 frames.
 
 ## Project Layout
 
