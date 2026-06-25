@@ -1,4 +1,5 @@
 build/
+.codex_tmp/
 managed_components/
 sdkconfig.old
 assets/firmware/*
