@@ -14,13 +14,13 @@ The source code lives in private repositories.
 
 ```text
 installers/
-  ESP32MediaViewerCompanion-Web.exe
-  ESP32MediaViewerCompanion-Full.exe
+  ESP32MediaViewerCompanion-Web-Setup.exe
+  ESP32MediaViewerCompanion-Full-Setup.exe
 ```
 
-`ESP32MediaViewerCompanion-Web.exe` is the small downloader app. It opens a Downloads window where users can choose All or Custom and install runtime files to AppData, the app folder, or a custom folder.
+`ESP32MediaViewerCompanion-Web-Setup.exe` installs the companion app, then lets users choose All or Custom runtime downloads for tools and firmware.
 
-`ESP32MediaViewerCompanion-Full.exe` is the offline app. It has the runtime payload embedded and extracts tools and firmware on first launch.
+`ESP32MediaViewerCompanion-Full-Setup.exe` installs the companion app, tools, and firmware from an embedded offline payload.
 
 ## Compiled Firmware
 
