@@ -2,7 +2,7 @@
 
 ESP-IDF v6 project for the Waveshare ESP32-C6-LCD-1.3 and ESP32-S3-LCD-1.3. The firmware displays JPEG images, MJPEG video packages, and legacy RGB565 video clips on the 240x240 ST7789 LCD. The C6 build uses the BOOT button as "next media" after the app has booted; the S3 build auto-rotates through the media playlist.
 
-The current design keeps user media out of the application binary. The board runs a prebuilt firmware image, and the companion app creates a separate `media.bin` package that is flashed into a dedicated data partition.
+The current design keeps user media out of the application binary. The board runs a prebuilt firmware image. In flash storage mode, the companion app creates a separate `media.bin` package that is flashed into a dedicated data partition. In S3 SD-card mode, the companion app converts each file and uploads it over the USB serial COM port to an SD card left in the device.
 
 ## Hardware Notes
 
@@ -10,7 +10,7 @@ The current design keeps user media out of the application binary. The board run
 - Waveshare ESP32-S3-LCD-1.3: ST7789VW 240x240 SPI LCD, SCLK GPIO40, MOSI GPIO41, CS GPIO39, DC GPIO38, RST GPIO42, backlight GPIO4. The S3 build uses the vendor demo's RGB order and 80-pixel Y gap.
 - The S3 board has onboard 16MB flash and 8MB PSRAM. Its firmware uses a much larger media partition than the C6 build.
 - The S3 board does not expose a usable next-media button in this project, so its firmware auto-advances instead of waiting for button input.
-- USB is used for serial flashing. The companion app flashes firmware and `media.bin`; it does not require the board to expose USB Mass Storage.
+- USB is used for serial flashing and S3 SD-card uploads. The companion app does not require the board to expose USB Mass Storage.
 
 ## Media Workflow
 
@@ -19,8 +19,12 @@ End-user workflow:
 1. Run the portable Windows companion app.
 2. Add image, GIF, or video files.
 3. Pick the fit mode: `contain`, `cover`, or `stretch`.
-4. Select the board type and COM port.
+4. Select the board type, storage target, and COM port.
 5. Press Flash.
+
+Use `Flash Firmware` when you only want to install or update the board firmware. It flashes the bootloader, partition table, and application firmware for the selected board without creating `media.bin` and without touching the media partition or SD-card contents.
+
+### Flash Storage Mode
 
 The app converts media to device-ready files, builds a `media.bin` package, downloads or uses bundled prebuilt firmware files, and flashes:
 
@@ -43,6 +47,26 @@ Optimized GIF frames are composited before conversion, and firmware video playba
 The log area includes Clear Log, Save Log, and an Auto clear on run option. The auto-clear option is stored in the app settings file.
 
 The Flash workflow includes an Erase media first option. When enabled, the app runs `esptool erase-region` for the configured media partition before writing the new `media.bin`, which removes any leftover bytes from older, larger media packages.
+
+### S3 SD-Card Mode
+
+The Storage dropdown can be set to `SD card` for the ESP32-S3 board. In this mode the app does not build or flash `media.bin`. Instead it converts files to the same device-playable formats and sends them over the selected COM port to the SD-card upload listener in the running S3 firmware.
+
+The companion app also exposes SD-card tools for the S3 board. `Format SD` sends a destructive format command to the firmware over the selected COM port. The firmware interrupts playback, waits for the current media file to close, formats the mounted FAT filesystem with ESP-IDF's SD-card FATFS formatter, recreates `/sdcard/media`, and returns to an empty playlist.
+
+Converted SD files use these extensions:
+
+```text
+.jpg   still images
+.mjpg  MJPEG video packages
+.rgbv  legacy RGB565 video packages
+```
+
+The firmware mounts the card at `/sdcard`, keeps playable files in `/sdcard/media`, and receives new uploads into `/sdcard/upload_tmp`. When the transfer completes cleanly, the upload folder is moved into place and the device auto-plays the SD playlist from the beginning.
+
+For SD-card mode, Auto conversion does not cap video duration to fit a flash partition. It converts full animated/video clips at the app's default FPS. If Auto is disabled, the FPS and Max sec fields are treated as explicit user limits.
+
+Convert Only in SD-card mode writes the converted `.jpg`, `.mjpg`, and `.rgbv` files into the selected output folder instead of creating `media.bin`.
 
 ## Partition Layouts
 
@@ -91,6 +115,7 @@ Current runtime dependencies:
 - A bundled `tools/ffmpeg.exe` for common video conversion.
 - Windows Media Foundation as a backup video decoder if FFmpeg is not bundled or cannot decode a file.
 - A bundled `tools/esptool.exe` or `esptool.exe` next to the app for flashing.
+- The same selected COM port for S3 SD-card upload mode.
 - Either bundled firmware files under `firmware/` next to the app, or downloadable GitHub release assets.
 
 Expected portable folder layout:
@@ -169,6 +194,7 @@ components/
   media_viewer_display/      ST7789 LCD and backlight driver.
   media_viewer_input/        BOOT button debounce and press handling.
   media_viewer_media/        JPEG, MJPEG, and RGB565 video playback.
+  media_viewer_sd/           S3 SDMMC mount, playlist scan, and USB serial upload protocol.
 firmware_release/
   firmware_package.json      C6 release manifest consumed by the companion app.
   firmware_package.esp32s3.json

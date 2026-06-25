@@ -2,6 +2,7 @@ build/
 .codex_tmp/
 managed_components/
 sdkconfig.old
+sdkconfig.esp32s3
 assets/firmware/*
 !assets/firmware/.gitkeep
 __pycache__/
