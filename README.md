@@ -144,6 +144,15 @@ The Board dropdown selects which firmware subfolder to use. If the matching loca
 https://github.com/d0773d/esp32-media-viewer/releases/latest/download/
 ```
 
+For normal users, ship the companion app as a portable zip with the firmware folders included. GitHub release downloads only work for users who can access the release assets; a private repository release is not a reliable firmware source for an unauthenticated EXE.
+
+The companion app supports two distribution styles:
+
+- Full/offline package: ship `ESP32MediaViewerCompanion-Full.exe`. It contains a compressed runtime payload and extracts `tools\` and `firmware\` on first launch, then converts or flashes without internet.
+- Web/downloader package: ship only the EXE. Users open the separate Downloads window, choose All or Custom, and choose an install location. All shows a compact read-only list of everything it will download. Custom shows the same list as selectable checkboxes. AppData is the default install location, App folder is second, and Custom lets the user choose a folder.
+
+The web/downloader package looks for installed files under the selected install location using the same runtime layout as the full package. It does not silently download firmware while flashing; if files are missing, the user must open Downloads and choose what to install.
+
 ## Build Firmware
 
 ```powershell
@@ -154,16 +163,42 @@ idf.py -B build\esp32s3 -D SDKCONFIG=sdkconfig.esp32s3 -D IDF_TARGET=esp32s3 bui
 Stage the prebuilt firmware release payload:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\stage_firmware_release.ps1 -BuildDir build\esp32c6 -OutDir dist\firmware-release-esp32c6 -Target esp32c6
-powershell -ExecutionPolicy Bypass -File tools\stage_firmware_release.ps1 -BuildDir build\esp32s3 -OutDir dist\firmware-release-esp32s3 -Target esp32s3
+powershell -ExecutionPolicy Bypass -File tools\stage_firmware_release.ps1 -BuildDir build\esp32c6 -OutDir firmware_release\esp32c6 -Target esp32c6
+powershell -ExecutionPolicy Bypass -File tools\stage_firmware_release.ps1 -BuildDir build\esp32s3 -OutDir firmware_release\esp32s3 -Target esp32s3
 ```
 
-Package the companion app with the firmware bundle for the board you want to ship:
+Package the portable folder with both board firmware bundles:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File companion_app\package_windows.ps1 -FirmwareReleaseDir ..\dist\firmware-release-esp32c6 -OutDir ..\dist\ESP32MediaViewerCompanion-C6
-powershell -ExecutionPolicy Bypass -File companion_app\package_windows.ps1 -FirmwareReleaseDir ..\dist\firmware-release-esp32s3 -OutDir ..\dist\ESP32MediaViewerCompanion-S3
+powershell -ExecutionPolicy Bypass -File companion_app\package_windows.ps1 -OutDir ..\dist\ESP32MediaViewerCompanion
+powershell -ExecutionPolicy Bypass -File companion_app\make_release_zip.ps1 -PackageDir ..\dist\ESP32MediaViewerCompanion -OutZip ..\dist\ESP32MediaViewerCompanion.zip
 ```
+
+The zip is still useful for testing the portable folder. For the single-file full/offline app, create the embedded runtime payload zip and build the companion app with that payload compiled into the EXE:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File companion_app\make_embedded_payload_zip.ps1 -PackageDir ..\dist\ESP32MediaViewerCompanion -OutZip ..\dist\embedded-runtime-payload.zip
+cmake -S companion_app -B build\companion-msvc-full -G Ninja -DCMAKE_BUILD_TYPE=Release -DMEDIA_VIEWER_EMBEDDED_PAYLOAD=ON -DMEDIA_VIEWER_PAYLOAD_ZIP=%CD%\dist\embedded-runtime-payload.zip
+cmake --build build\companion-msvc-full --config Release
+powershell -ExecutionPolicy Bypass -File companion_app\package_embedded_windows.ps1 -BuildDir ..\build\companion-msvc-full -OutDir ..\dist\ESP32MediaViewerCompanion-Full
+```
+
+Give users `dist\ESP32MediaViewerCompanion-Full\ESP32MediaViewerCompanion-Full.exe` for the full/offline build. On first launch it extracts `tools\` and `firmware\` next to the EXE. If that folder cannot be written, it falls back to AppData.
+
+Stage assets for the web/downloader package:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File companion_app\package_web_windows.ps1 -OutDir ..\dist\ESP32MediaViewerCompanion-Web
+powershell -ExecutionPolicy Bypass -File tools\make_web_release_assets.ps1 -PackageDir dist\ESP32MediaViewerCompanion -OutDir dist\web-release-assets
+```
+
+Publish every file in `dist\web-release-assets` to the download host expected by the app:
+
+```text
+https://github.com/d0773d/esp32-media-viewer/releases/latest/download/
+```
+
+Those assets use board-prefixed firmware filenames such as `esp32c6_bootloader.bin` and `esp32s3_bootloader.bin` so both boards can live in one release without filename collisions.
 
 ## Build Companion App
 
@@ -198,14 +233,21 @@ components/
 firmware_release/
   firmware_package.json      C6 release manifest consumed by the companion app.
   firmware_package.esp32s3.json
+  esp32c6/                   Checked-in C6 bootloader, partition table, app, and manifest.
+  esp32s3/                   Checked-in S3 bootloader, partition table, app, and manifest.
 tools/
   stage_firmware_release.ps1 Copies build outputs into a firmware release folder.
+  make_web_release_assets.ps1 Copies web-downloadable release assets with stable names.
   media_uploader.py          Legacy Python convert/build/flash utility.
   convert_video_rgbv.py      Legacy video-to-RGB565 converter.
 companion_app/
   CMakeLists.txt
   src/main.cpp               Native portable Windows companion app.
   package_windows.ps1        Stages the portable Windows app folder.
+  make_embedded_payload_zip.ps1 Creates the zip embedded in the full EXE.
+  package_embedded_windows.ps1 Stages the embedded full/offline EXE.
+  package_web_windows.ps1    Stages the small downloader-only app folder.
+  make_release_zip.ps1       Creates the clean user-downloadable zip.
 ```
 
 The project was created for ESP-IDF v6.x and verified with ESP-IDF v6.0.1.
