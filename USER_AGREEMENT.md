@@ -22,17 +22,21 @@ The software is provided "as is" and "as available" without warranties of any ki
 
 To the maximum extent permitted by law, the Developer will not be liable for any claim, loss, damage, cost, or expense arising from or related to use of the software. This includes, without limitation, direct, indirect, incidental, special, consequential, exemplary, or punitive damages; data loss; device damage; firmware flashing failure; SD card or storage corruption; lost profits; lost media; computer problems; or interruption of use, even if the Developer has been advised of the possibility of such damages.
 
-## 6. Third-Party Tools, Hardware, and Files
+## 6. Third-Party Tools, Hardware, and Limited Hardware Warranty
 
-The software may use or interact with third-party tools, firmware, media files, drivers, operating system services, ESP32 hardware, LCD modules, SD cards, and USB/serial interfaces. The Developer is not responsible for defects, incompatibilities, data loss, damage, or behavior caused by third-party hardware, software, files, or services.
+The software may use or interact with third-party tools, firmware, media files, drivers, operating system services, ESP32 hardware, LCD modules, SD cards, and USB/serial interfaces. The Developer is not responsible for defects, incompatibilities, data loss, damage, or behavior caused by third-party hardware, software, files, or services except for the limited hardware warranty expressly stated below.
 
-ESP32 Media Viewer Companion is intended to work with supported third-party development boards, including Waveshare ESP32 display boards. The Developer did not design, manufacture, modify, or sell the Waveshare hardware unless expressly stated separately in writing.
+ESP32 Media Viewer Companion is intended to work with supported third-party development boards, including the Waveshare ESP32-S3 1.3inch Display Development Board. For a thorough list of supported boards, see the [d0773d/esp32-media-viewer](https://github.com/d0773d/esp32-media-viewer) GitHub repository.
 
-All hardware warranties, defects, safety claims, compatibility claims, and hardware support obligations remain with the hardware manufacturer, seller, or distributor. The Developer does not provide any warranty for Waveshare boards, LCD panels, SD cards, USB cables, computers, or other third-party hardware.
+The Developer did not design, manufacture, or modify Waveshare hardware. Waveshare, the hardware manufacturer, seller, or distributor remains responsible for manufacturer warranties, design defects, manufacturing defects, safety claims, compatibility claims, recalls, and manufacturer-level hardware support.
 
-Use of the companion app, firmware, flashing tools, media conversion tools, SD card formatting, or USB/serial transfer features is at your own risk. Incorrect device selection, firmware flashing, interrupted transfers, formatting, incompatible media, power issues, hardware defects, or misuse may cause data loss, device malfunction, or hardware damage.
+If the Developer directly sold a supported board to you, the Developer provides a limited 30-day hardware warranty beginning on the date you receive the board from the Developer. This limited warranty applies only to the physical board sold directly by the Developer and only covers defects in the board as received under normal use. The Developer's sole obligation, and your sole remedy, is repair, replacement, or refund at the Developer's discretion.
 
-To the maximum extent permitted by law, the Developer is not liable for damage to third-party hardware, loss of data, loss of use, or other damages arising from use of the software, firmware, installer, companion app, or related tools.
+This limited hardware warranty does not cover misuse, modification, improper power or cables, physical damage, liquid exposure, improper storage, unauthorized repair, normal wear, unsupported accessories, incorrect device selection, firmware flashing, interrupted transfers, formatting, incompatible media, software or firmware behavior, SD card issues, computer issues, or damage caused after delivery.
+
+All software, firmware, installers, media conversion tools, flashing tools, SD card formatting features, and USB/serial transfer features remain provided "as is" under this Agreement. Use of those features is at your own risk and may cause data loss, device malfunction, or hardware damage if used incorrectly.
+
+To the maximum extent permitted by law, the Developer is not liable for damage to third-party hardware, loss of data, loss of use, or other damages arising from use of the software, firmware, installer, companion app, or related tools beyond the limited hardware remedy stated above for boards sold directly by the Developer.
 
 ## 7. No High-Risk Use
 
