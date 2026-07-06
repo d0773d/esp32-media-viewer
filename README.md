@@ -30,6 +30,8 @@ Setup shows install progress with a percentage and current phase while it extrac
 
 The companion app requires users to accept the included [User Agreement](USER_AGREEMENT.md) before the app becomes usable.
 
+After installation, the app treats the installed app folder as its home base. Settings are written beside the app when possible, generated media defaults to an `output` subfolder there, and runtime downloads default to the same installed app folder. AppData is used only as a fallback when the app folder cannot be written.
+
 ## Compiled Firmware
 
 ```text
