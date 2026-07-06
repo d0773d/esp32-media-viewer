@@ -22,6 +22,8 @@ installers/
 
 `ESP32MediaViewerCompanion-Full-Setup.exe` installs the companion app, tools, and firmware from an embedded offline payload.
 
+The companion app requires users to accept the included [User Agreement](USER_AGREEMENT.md) before the app becomes usable.
+
 ## Compiled Firmware
 
 ```text
