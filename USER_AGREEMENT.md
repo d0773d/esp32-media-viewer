@@ -30,7 +30,7 @@ ESP32 Media Viewer Companion is intended to work with supported third-party deve
 
 The Developer did not design, manufacture, or modify Waveshare hardware. Waveshare, the hardware manufacturer, seller, or distributor remains responsible for manufacturer warranties, design defects, manufacturing defects, safety claims, compatibility claims, recalls, and manufacturer-level hardware support.
 
-If the Developer directly sold a supported board to you, the Developer provides a limited 30-day hardware warranty beginning on the date you receive the board from the Developer. This limited warranty applies only to the physical board sold directly by the Developer and only covers defects in the board as received under normal use. The Developer's sole obligation, and your sole remedy, is repair, replacement, or refund at the Developer's discretion.
+If the Developer directly sold a supported board to you, the Developer provides a limited 7-day hardware warranty beginning on the date you receive the board from the Developer. This limited warranty applies only to the physical board sold directly by the Developer and only covers defects in the board as received under normal use. The Developer's sole obligation, and your sole remedy, is repair, replacement, or refund at the Developer's discretion.
 
 This limited hardware warranty does not cover misuse, modification, improper power or cables, physical damage, liquid exposure, improper storage, unauthorized repair, normal wear, unsupported accessories, incorrect device selection, firmware flashing, interrupted transfers, formatting, incompatible media, software or firmware behavior, SD card issues, computer issues, or damage caused after delivery.
 
