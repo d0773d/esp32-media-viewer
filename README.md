@@ -12,7 +12,6 @@ Use the latest release:
 ## Supported Boards
 
 - Waveshare ESP32-S3 1.3inch Display Development Board
-- Waveshare ESP32-C6-LCD-1.3
 
 ## Install Notes
 
