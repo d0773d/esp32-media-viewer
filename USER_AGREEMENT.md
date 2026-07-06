@@ -26,6 +26,14 @@ To the maximum extent permitted by law, the Developer will not be liable for any
 
 The software may use or interact with third-party tools, firmware, media files, drivers, operating system services, ESP32 hardware, LCD modules, SD cards, and USB/serial interfaces. The Developer is not responsible for defects, incompatibilities, data loss, damage, or behavior caused by third-party hardware, software, files, or services.
 
+ESP32 Media Viewer Companion is intended to work with supported third-party development boards, including Waveshare ESP32 display boards. The Developer did not design, manufacture, modify, or sell the Waveshare hardware unless expressly stated separately in writing.
+
+All hardware warranties, defects, safety claims, compatibility claims, and hardware support obligations remain with the hardware manufacturer, seller, or distributor. The Developer does not provide any warranty for Waveshare boards, LCD panels, SD cards, USB cables, computers, or other third-party hardware.
+
+Use of the companion app, firmware, flashing tools, media conversion tools, SD card formatting, or USB/serial transfer features is at your own risk. Incorrect device selection, firmware flashing, interrupted transfers, formatting, incompatible media, power issues, hardware defects, or misuse may cause data loss, device malfunction, or hardware damage.
+
+To the maximum extent permitted by law, the Developer is not liable for damage to third-party hardware, loss of data, loss of use, or other damages arising from use of the software, firmware, installer, companion app, or related tools.
+
 ## 7. No High-Risk Use
 
 Do not use the software in safety-critical, life-critical, medical, emergency, industrial control, or other high-risk environments where failure could cause injury, death, property damage, or serious loss.
