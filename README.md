@@ -22,6 +22,8 @@ installers/
 
 `ESP32MediaViewerCompanion-Full-Setup.exe` installs the companion app, tools, and firmware from an embedded offline payload.
 
+If a common folder such as Desktop is selected during setup, the installer creates an `ESP32MediaViewerCompanion` subfolder instead of placing app files directly into that folder. If the user selects a newly-created empty folder, the installer uses that folder directly.
+
 The companion app requires users to accept the included [User Agreement](USER_AGREEMENT.md) before the app becomes usable.
 
 ## Compiled Firmware
