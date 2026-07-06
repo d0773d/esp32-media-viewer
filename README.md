@@ -24,6 +24,8 @@ installers/
 
 If a common folder such as Desktop is selected during setup, the installer creates an `ESP32MediaViewerCompanion` subfolder instead of placing app files directly into that folder. If the user selects a newly-created empty folder, the installer uses that folder directly.
 
+Setup installs an `Uninstall.exe` in the app folder and registers the app under Windows Apps & features for the current user. Start Menu shortcuts are enabled by default, Desktop shortcut creation is optional, and taskbar pinning should be done manually from the Start Menu shortcut after install.
+
 The companion app requires users to accept the included [User Agreement](USER_AGREEMENT.md) before the app becomes usable.
 
 ## Compiled Firmware
